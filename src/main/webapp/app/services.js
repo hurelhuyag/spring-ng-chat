@@ -7,9 +7,9 @@
     }, messageIds = [];
     
     service.RECONNECT_TIMEOUT = 30000;
-    service.SOCKET_URL = "/spring-ng-chat/chat";
+    service.SOCKET_URL = "/ws/chat";
     service.CHAT_TOPIC = "/topic/message";
-    service.CHAT_BROKER = "/app/chat";
+    service.CHAT_BROKER = "/app/ws/chat";
     
     service.receive = function() {
       return listener.promise;
@@ -27,6 +27,7 @@
     };
     
     var reconnect = function() {
+      console.log('reconnect called');
       $timeout(function() {
         initialize();
       }, this.RECONNECT_TIMEOUT);
@@ -50,6 +51,7 @@
     };
     
     var initialize = function() {
+        console.log('initialize');
       socket.client = new SockJS(service.SOCKET_URL);
       socket.stomp = Stomp.over(socket.client);
       socket.stomp.connect({}, startListener);
